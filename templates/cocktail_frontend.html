@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <title> 開始推薦 - 調酒推薦系統 </title>
+    <style>
+        html, body {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        #title{ 
+            font-size: 25px;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #16262e;
+            color: #dbc2cf;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 🔹 Header 樣式 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: #2e4756;
+            color: #dbc2cf;
+            position: relative;
+        }
+
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #9fa2b2;
+        }
+
+        .header nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header a {
+            color: #dbc2cf;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .header a:hover {
+            color: #3c7a89;
+        }
+
+        /* 🔹 主要內容區塊 */
+        .container {
+            flex: 1;
+            display: flex;
+            
+            align-items: center; 
+            text-align: center;
+            padding: 50px 20px;
+            width: 100%;
+        }
+
+        .main{
+            flex-direction: column;
+        }
+
+        /* 🔹 問答區塊 */
+        .question-container {
+            background-color: #2e4756;
+            /* padding: 30px; */
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            padding-bottom: 20px;
+        }
+
+
+        .question {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .options button {
+            background-color: #3c7a89;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+
+        .options button:hover {
+            background-color: #2e4756;
+        }
+
+        /* 🔹 只有選取後才變色 */
+        .options button.selected {
+            background-color: #2e4756;
+            font-weight: bold;
+        }
+
+        /* 🔹 Footer 固定底部 */
+        .footer {
+            background: #2e4756;
+            color: #dbc2cf;
+            padding: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-top: auto; 
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            width: 90%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .footer .social-icons i {
+            font-size: 20px;
+            transition: 0.3s;
+            color: #dbc2cf;
+        }
+
+        .footer .social-icons i:hover {
+            color: #3c7a89;
+        }
+
+        .button {
+            background-color: #3c7a89;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .button:hover {
+            background-color: #2e4756;
+        }
+        .question {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .options button {
+            background-color: #2e4756;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            width: 80%;
+            transition: background-color 0.3s;
+        }
+
+        .options button:hover {
+            background-color: #3c7a89;
+        }
+
+        /* 🔹 只有選取後才變色 */
+        .options button.selected {
+            background-color: #3c7a89;
+            font-weight: bold;
+        }
+
+        /* 📱 手機版調整 */
+        @media (max-width: 768px) {
+            /* 🔹 Header 調整，讓 Logo 和選單整齊排列 */
+            .header {
+                flex-direction: column;
+                align-items: center;
+                padding: 15px;
+            }
+
+            .header nav {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            /* 🔹 主要內容區塊調整 */
+            .container {
+                padding: 20px 0px;
+                width: 100%;
+                max-width: none;
+            }
+
+            /* 🔹 問答區塊調整 */
+            .question-container {
+                width: 100%;
+                max-width: 100%;
+                /* padding: 20px; */
+            }
+
+            /* 🔹 選項按鈕在手機版顯示更適合觸控的大小 */
+            .options button {
+                width: 90%;
+                font-size: 18px;
+                padding: 12px;
+            }
+
+            /* 🔹 Footer 保持置底 */
+            .footer {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px 0px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .footer .social-icons {
+                justify-content: center;
+                gap: 20px;
+            }
+        }
+
+        /* 🔹 讓 `menu` 在桌機版正常顯示 */
+        .menu {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-grow: 0; /* ✅ 讓選單占滿左側空間 */
+        }
+        .menu a {
+            color: #dbc2cf;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s;
+            padding: 10px 15px;
+        }
+        .logo {
+            margin-right: auto; /* ✅ 把 logo 推到右側 */
+            font-size: 20px;
+            font-weight: bold;
+        }
+        /* 🔹 漢堡選單按鈕（手機版顯示） */
+        .burgar_btn {
+            display: none;
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: #dbc2cf;
+            cursor: pointer;
+        }
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: #2e4756;
+            color: #dbc2cf;
+            position: relative;
+        }
+        /* 🔹 手機版適應 */
+        @media (max-width: 768px) {
+            .burgar_btn {
+                display: block; /* ✅ 讓漢堡選單按鈕出現 */
+            }
+
+            .menu {
+                display: none; /* ✅ 預設隱藏選單 */
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                right: 10px;
+                width: 200px;
+                background: #2e4756;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                padding: 10px;
+            }
+
+            .menu.active {
+                display: flex; /* ✅ 點擊漢堡選單後才展開 */
+            }
+
+            .menu li {
+                text-align: center;
+                padding: 10px;
+                border-bottom: 1px solid #3c7a89;
+            }
+
+            .menu li:last-child {
+                border-bottom: none;
+            }
+
+            .menu a {
+                display: block;
+                padding: 12px 0;
+                width: 100%;
+            }
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+
+
+
+    <div class="header">
+        <div class="container">
+
+            <div class="logo">🍸 調酒推薦</div>
+            <ul class="menu">
+                <li><a href="/">首頁</a></li>
+                <li><a href="/start-recommendation">幫我推薦</a></li>
+                <li><a href="/history">歷史紀錄</a></li>
+                <li><a href="/logout">登出</a></li>
+            </ul>
+    
+            
+    
+            <a href="#" class="burgar_btn">
+                <i class="fas fa-bars"></i>
+            </a>
+        </div>
+    </div>
+    
+    <div class="container main">
+        <p id="title">請選擇您的偏好來獲得最佳調酒推薦</p>
+    
+        <div id="questionnaire" class="question-container">
+            <p id="question-text" class="question"></p>
+            <div class="options" id="options-container"></div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="footer-content">
+            <div>
+                <p>© 2025 調酒推薦系統 | All Rights Reserved</p>
+            </div>
+            <div class="social-icons">
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+        let questions = {
+            "concentration": {
+                text: "選擇酒精濃度",
+                options: ["高", "中", "低"]
+            },
+            "alcohol_feel": {
+                text: "是否需要酒感？",
+                options: {
+                    "高": ["需要", "不需要", "都可"],
+                    "中": ["需要", "不需要", "都可"],
+                    "酸": ["需要", "不需要", "都可"],
+                    "甜": ["需要", "不需要", "都可"],
+                    "低": ["不需要"]
+                }
+            },
+            "taste": {
+                text: "選擇酸甜度",
+                options: {
+                    "中": ["酸", "甜"],
+                    "低": ["酸", "甜"],
+                    "不需要": ["酸", "甜"],
+                }
+            },
+            "bubble": {
+                text: "是否需要氣泡？",
+                options: {
+                    "甜": ["要", "不要", "都可"],
+                    "酸": ["要", "不要", "都可"]
+                }
+            },
+            "weather": {  // 🔹 新增天氣選擇問題
+                text: "選擇天氣",
+                options: ["晴天", "陰天", "雨天"]
+            }
+        };
+        let answers = {};
+        let questionOrder = ["concentration", "alcohol_feel", "taste", "bubble", "weather"]; 
+        let currentIndex = 0;
+
+        function showQuestion() {
+            if (currentIndex >= questionOrder.length) {
+                submitRecommendation();
+                return;
+            }
+
+            let currentKey = questionOrder[currentIndex];
+            let questionData = questions[currentKey];
+
+            if (!questionData) {
+                console.error(`錯誤：找不到問題 ${currentKey}`);
+                currentIndex++;
+                showQuestion();
+                return;
+            }
+
+            let options = questionData.options;
+
+            // **如果 options 是物件，確保 previousAnswer 有值**
+            if (typeof options === "object" && !Array.isArray(options)) {
+                let previousAnswer = answers[questionOrder[currentIndex - 1]];
+
+                if (!previousAnswer) {
+                    console.warn(`問題 ${currentKey} 依賴於上一個答案，但上一題尚未回答，等待填寫`);
+                    return;  // **等待使用者回答上一題**
+                }
+
+                if (!options[previousAnswer]) {
+                    console.warn(`問題 ${currentKey} 的選項不存在，使用預設選項`);
+                    options = [];  // **避免 undefined**
+                } else {
+                    options = options[previousAnswer];  // **取得對應的選項陣列**
+                }
+            }
+
+
+            if (!Array.isArray(options) || options.length === 0) {
+                console.error(`錯誤：問題 ${currentKey} 沒有可用的選項`, options);
+                return;
+            }
+
+            console.log(`目前問題索引: ${currentIndex}`);
+            console.log(`目前問題 Key: ${currentKey}`);
+            console.log(`目前選項:`, options);
+
+            document.getElementById("question-text").innerText = questionData.text;
+            let optionsContainer = document.getElementById("options-container");
+            optionsContainer.innerHTML = "";
+
+            options.forEach(option => {
+                let button = document.createElement("button");
+                button.innerText = option;
+                button.classList.add("option-button");
+
+                if (answers[currentKey] === option) {
+                    button.classList.add("selected");
+                }
+
+                button.onclick = () => selectAnswer(currentKey, option);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function selectAnswer(key, value) {
+            answers[key] = value;
+
+            if (key === "concentration") {
+                if (value === "低") {
+                    questionOrder = ["concentration", "taste", "bubble", "weather"];
+                } else if (value === "中") {
+                    questionOrder = ["concentration", "taste", "alcohol_feel", "weather"];
+                } else if (value === "高") {
+                    questionOrder = ["concentration", "alcohol_feel", "taste", "weather"];
+                }
+                currentIndex = 1;
+            } else {
+                currentIndex++;
+            }
+
+            showQuestion();
+        }
+
+        function submitRecommendation() {
+            
+            let unanswered = questionOrder.filter(q => !answers[q]);
+            if (unanswered.length > 0) {
+                alert("請回答所有問題再進行推薦！");
+                return;
+            }
+
+            fetch("/recommend", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(answers)
+            })
+            .then(response => response.text())
+            .then(html => {
+                document.open();
+                document.write(html);
+                document.close();
+            })
+            .catch(error => console.error("Error:", error));
+        }
+
+        document.addEventListener("DOMContentLoaded", showQuestion);
+    </script>
+</body>
+</html>

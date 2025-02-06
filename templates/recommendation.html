@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>調酒推薦結果</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        html, body {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #16262e;
+            color: #dbc2cf;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 🔹 Header 樣式 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: #2e4756;
+            color: #dbc2cf;
+        }
+
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #9fa2b2;
+        }
+
+        .header nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header a {
+            color: #dbc2cf;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .header a:hover {
+            color: #3c7a89;
+        }
+
+        /* 🔹 主要內容區塊 */
+        .container {
+            flex: 1;
+            display: flex;
+            
+            align-items: center; 
+            text-align: center;
+            padding: 50px 20px;
+            width: 100%;
+        }
+
+        .main{
+            flex-direction: column;
+        }
+
+        /* 🔹 標題樣式 */
+        h1 {
+            color: #9fa2b2;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #dbc2cf;
+            margin-bottom: 20px;
+        }
+
+        /* 🔹 調酒推薦區塊 */
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .card {
+            background: #2e4756;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 220px;
+            text-align: center;
+            padding: 15px;
+        }
+
+        .card img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .card p {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #dbc2cf;
+        }
+
+        /* 🔹 按鈕區塊 */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .button {
+            background-color: #3c7a89;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background-color: #2e4756;
+        }
+
+        /* 🔹 Footer 固定底部 */
+        .footer {
+            background: #2e4756;
+            color: #dbc2cf;
+            padding: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            width: 90%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .footer .social-icons i {
+            font-size: 20px;
+            transition: 0.3s;
+            color: #dbc2cf;
+        }
+
+        .footer .social-icons i:hover {
+            color: #3c7a89;
+        }
+
+        /* 🔹 手機版適應 */
+        @media (max-width: 768px) {
+            .card {
+                width: calc(50% - 20px);
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                width: calc(100% - 20px);
+            }
+        }
+
+        /* 🔹 讓 `menu` 在桌機版正常顯示 */
+        .menu {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-grow: 0; /* ✅ 讓選單占滿左側空間 */
+        }
+        .menu a {
+            color: #dbc2cf;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s;
+            padding: 10px 15px;
+        }
+        .logo {
+            margin-right: auto; /* ✅ 把 logo 推到右側 */
+            font-size: 20px;
+            font-weight: bold;
+        }
+        /* 🔹 漢堡選單按鈕（手機版顯示） */
+        .burgar_btn {
+            display: none;
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: #dbc2cf;
+            cursor: pointer;
+        }
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: #2e4756;
+            color: #dbc2cf;
+            position: relative;
+        }
+        /* 🔹 手機版適應 */
+        @media (max-width: 768px) {
+            .burgar_btn {
+                display: block; /* ✅ 讓漢堡選單按鈕出現 */
+            }
+
+            .menu {
+                display: none; /* ✅ 預設隱藏選單 */
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                right: 10px;
+                width: 200px;
+                background: #2e4756;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                padding: 10px;
+            }
+
+            .menu.active {
+                display: flex; /* ✅ 點擊漢堡選單後才展開 */
+            }
+
+            .menu li {
+                text-align: center;
+                padding: 10px;
+                border-bottom: 1px solid #3c7a89;
+            }
+
+            .menu li:last-child {
+                border-bottom: none;
+            }
+
+            .menu a {
+                display: block;
+                padding: 12px 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header 導覽列 -->
+    <div class="header">
+        <div class="container">
+
+            <div class="logo">🍸 調酒推薦</div>
+            <ul class="menu">
+                <li><a href="/">首頁</a></li>
+                <li><a href="/start-recommendation">幫我推薦</a></li>
+                <li><a href="/history">歷史紀錄</a></li>
+                <li><a href="/logout">登出</a></li>
+            </ul>
+    
+            <a href="#" class="burgar_btn">
+                <i class="fas fa-bars"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- 主要內容 -->
+    <div class="container main">
+        <h1>以下是根據您的選擇推薦的調酒</h1>
+        <p class="subtitle">The best cocktails for you based on your preferences</p>
+
+        <div class="card-container">
+            {% for cocktail in cocktails %}
+                <div class="card">
+                    <img src="/static/images/{{ cocktail['圖片位置'] | string }}.jpg" alt="{{ cocktail['調酒名稱'] }}">
+                    <p>{{ cocktail['調酒名稱'] }}</p>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <div>
+                <p>© 2025 調酒推薦系統 | All Rights Reserved</p>
+            </div>
+            <div class="social-icons">
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>推薦歷史</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        html, body {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #16262e;
+            color: #dbc2cf;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 🔹 Header 樣式 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: #2e4756;
+            color: #dbc2cf;
+            position: relative;
+        }
+
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #9fa2b2;
+        }
+
+        .header nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header a {
+            color: #dbc2cf;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .header a:hover {
+            color: #3c7a89;
+        }
+
+        /* 🔹 主要內容區塊 */
+        .container {
+            flex: 1;
+            display: flex;
+            
+            align-items: center; 
+            text-align: center;
+            padding: 50px 20px;
+            width: 100%;
+        }
+
+        .main{
+            flex-direction: column;
+        }
+
+        h1 {
+            color: #9fa2b2;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .table-container {
+            display: flex;
+            justify-content: center; /* ✅ 水平置中 */
+            width: 100%;
+            overflow-x: auto; /* ✅ 讓內容可水平滾動，避免壓縮 */
+        }
+
+        /* 🔹 表格樣式 */
+        table {
+            min-width: 800px; /* ✅ 設定最小寬度，避免壓縮 */
+            border-collapse: collapse;
+            background: #2e4756;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        th, td {
+            border: 1px solid #9fa2b2;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #3c7a89;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #334d5c;
+        }
+
+        tr:hover {
+            background-color: #3c7a89;
+            transition: 0.3s;
+        }
+
+        /* 🔹 按鈕區塊 */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .button {
+            background-color: #3c7a89;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background-color: #2e4756;
+        }
+
+        /* 🔹 Footer 固定底部 */
+        .footer {
+            background: #2e4756;
+            color: #dbc2cf;
+            padding: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            width: 90%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .footer .social-icons i {
+            font-size: 20px;
+            transition: 0.3s;
+            color: #dbc2cf;
+        }
+
+        .footer .social-icons i:hover {
+            color: #3c7a89;
+        }
+
+
+        /* 🔹 手機版適應 */
+        @media (max-width: 768px) {
+            table {
+                width: 100%;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+            .menu-toggle {
+                display: block; /* ✅ 在手機版顯示漢堡選單 */
+            }
+
+            .nav-links {
+                display: none; /* ✅ 預設隱藏選單 */
+                flex-direction: column;
+                background: #2e4756;
+                position: absolute;
+                right: 0;
+                width: 200px;
+                text-align: center;
+                padding: 10px;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .nav-links a {
+                display: block;
+                padding: 10px;
+                border-bottom: 1px solid #3c7a89;
+            }
+
+            .nav-links a:last-child {
+                border-bottom: none;
+            }
+
+            .nav-links.active {
+                display: flex; /* ✅ 當按鈕點擊時展開選單 */
+            }
+        }
+
+
+        /* 🔹 讓 `menu` 在桌機版正常顯示 */
+        .menu {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-grow: 0; /* ✅ 讓選單占滿左側空間 */
+        }
+        .menu a {
+            color: #dbc2cf;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s;
+            padding: 10px 15px;
+        }
+        .logo {
+            margin-right: auto; /* ✅ 把 logo 推到右側 */
+            font-size: 20px;
+            font-weight: bold;
+        }
+        /* 🔹 漢堡選單按鈕（手機版顯示） */
+        .burgar_btn {
+            display: none;
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: #dbc2cf;
+            cursor: pointer;
+        }
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: #2e4756;
+            color: #dbc2cf;
+            position: relative;
+        }
+        /* 🔹 手機版適應 */
+        @media (max-width: 768px) {
+            .burgar_btn {
+                display: block; /* ✅ 讓漢堡選單按鈕出現 */
+            }
+
+            .menu {
+                display: none; /* ✅ 預設隱藏選單 */
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                right: 10px;
+                width: 200px;
+                background: #2e4756;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                padding: 10px;
+            }
+
+            .menu.active {
+                display: flex; /* ✅ 點擊漢堡選單後才展開 */
+            }
+
+            .menu li {
+                text-align: center;
+                padding: 10px;
+                border-bottom: 1px solid #3c7a89;
+            }
+
+            .menu li:last-child {
+                border-bottom: none;
+            }
+
+            .menu a {
+                display: block;
+                padding: 12px 0;
+                width: 100%;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Header 導覽列 -->
+    <div class="header">
+        <div class="container">
+
+            <div class="logo">🍸 調酒推薦</div>
+            <ul class="menu">
+                <li><a href="/">首頁</a></li>
+                <li><a href="/start-recommendation">幫我推薦</a></li>
+                <li><a href="/history">歷史紀錄</a></li>
+                <li><a href="/logout">登出</a></li>
+            </ul>
+    
+            
+    
+            <a href="#" class="burgar_btn">
+                <i class="fas fa-bars"></i>
+            </a>
+        </div>
+    </div>
+    
+    
+
+    <!-- 主要內容 -->
+    <div class="container main">
+        <h1>推薦使用歷史</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>時間</th>
+                    <th>濃度</th>
+                    <th>酒感</th>
+                    <th>酸甜度</th>
+                    <th>氣泡</th>
+                    <th>天氣</th>
+                    <th>推薦調酒</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                    <tr>
+                        <td>{{ record[0] }}</td>  <!-- 時間 -->
+                        <td>{{ record[3] }}</td>  <!-- 濃度 -->
+                        <td>{{ record[4] }}</td>  <!-- 酒感 -->
+                        <td>{{ record[5] }}</td>  <!-- 酸甜度 -->
+                        <td>{{ record[6] }}</td>  <!-- 氣泡 -->
+                        <td>{{ record[7] }}</td>  <!-- 天氣 -->
+                        <td>
+                            {% for cocktail in record[8:] if cocktail %}
+                                {{ cocktail }}<br>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-content">
+            <div>
+                <p>© 2025 調酒推薦系統 | All Rights Reserved</p>
+            </div>
+            <div class="social-icons">
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let menu = document.querySelector(".menu");
+            let toggleButton = document.querySelector(".burgar_btn");
+    
+            // ✅ 點擊漢堡按鈕時切換選單
+            toggleButton.addEventListener("click", function (event) {
+                event.preventDefault(); // 阻止默認行為
+                menu.classList.toggle("active");
+            });
+    
+            // ✅ 點擊選單內的選項時關閉選單
+            document.querySelectorAll(".menu a").forEach(item => {
+                item.addEventListener("click", () => {
+                    menu.classList.remove("active");
+                });
+            });
+    
+            // ✅ 點擊外部時關閉選單
+            document.addEventListener("click", function (event) {
+                if (!menu.contains(event.target) && !toggleButton.contains(event.target)) {
+                    menu.classList.remove("active");
+                }
+            });
+        });
+    </script>
+    
+
+</body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登入 - 調酒推薦系統</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        html, body {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 🔹 全局樣式 */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #16262e;
+            color: #dbc2cf;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 🔹 Header 樣式 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: #2e4756;
+            color: #dbc2cf;
+            position: relative;
+        }
+
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #9fa2b2;
+        }
+
+        .header nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header a {
+            color: #dbc2cf;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .header a:hover {
+            color: #3c7a89;
+        }
+
+        /* 🔹 登入畫面 */
+        .login-container {
+            flex: 1;
+            display: flex;
+            height: 80vh;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            /* padding: 50px 20px; */
+        }
+
+        /* 🔹 左側圖片 */
+        .image-container {
+            flex: 1.2;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+
+        /* 🔹 右側登入表單 */
+        .form-container {
+            flex: 1;
+            max-width: 400px;
+            text-align: left;
+            background: #2e4756;
+            padding: 40px;
+            border-radius: 10px;
+            margin-right: 40px;
+            background: rgba(46, 71, 86, 0); /* 完全透明 */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out, background 1.5s ease-in-out;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #9fa2b2;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #dbc2cf;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            border: 1px solid #9fa2b2;
+            box-sizing: border-box;
+            background: #16262e;
+            color: #dbc2cf;
+        }
+
+
+        .button {
+            background-color: #3c7a89;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background-color: #2e4756;
+        }
+
+        /* 🔹 Footer 樣式 */
+        .footer {
+            background: #2e4756;
+            color: #dbc2cf;
+            padding: 30px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .footer .social-icons i {
+            font-size: 20px;
+            transition: 0.3s;
+            color: #dbc2cf;
+        }
+
+        .footer .social-icons i:hover {
+            color: #3c7a89;
+        }
+
+        /* 🔹 讓所有元素一開始隱藏 */
+        h1, p, form, .image-container {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+        }
+
+        /* 🔹 先顯示標題 & 文字 */
+        body.loaded h1, 
+        body.loaded p {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 🔹 再顯示表單 */
+        body.loaded form {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.7s;
+        }
+
+        /* 🔹 最後顯示圖片 */
+        body.loaded .image-container {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 1s;
+        }
+
+        body.loaded .form-container {
+            opacity: 1;
+            transform: translateY(0);
+            background: #2e4756; /* 最終顏色 */
+        }
+
+
+        /* 🔹 手機版調整 */
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+                height: auto;
+                padding: 50px 20px;
+            }
+
+            .image-container {
+                height: 50vh;
+            }
+
+            .form-container {
+                max-width: 100%;
+                text-align: center;
+                margin-right: 0px;
+            }
+
+            .footer {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+
+
+
+            
+        }
+
+
+        .container {
+            flex: 1;
+            display: flex;
+            
+            align-items: center; 
+            text-align: center;
+            padding: 50px 20px;
+            width: 100%;
+        }
+
+        /* 🔹 讓 `menu` 在桌機版正常顯示 */
+        .menu {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-grow: 0; /* ✅ 讓選單占滿左側空間 */
+        }
+        .menu a {
+            color: #dbc2cf;
+            text-decoration: none;
+            font-size: 16px;
+            transition: 0.3s;
+            padding: 10px 15px;
+        }
+        .logo {
+            margin-right: auto; /* ✅ 把 logo 推到右側 */
+            font-size: 20px;
+            font-weight: bold;
+        }
+        /* 🔹 漢堡選單按鈕（手機版顯示） */
+        .burgar_btn {
+            display: none;
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: #dbc2cf;
+            cursor: pointer;
+        }
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: #2e4756;
+            color: #dbc2cf;
+            position: relative;
+        }
+        /* 🔹 手機版適應 */
+        @media (max-width: 768px) {
+            .burgar_btn {
+                display: block; /* ✅ 讓漢堡選單按鈕出現 */
+            }
+
+            .menu {
+                display: none; /* ✅ 預設隱藏選單 */
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                right: 10px;
+                width: 200px;
+                background: #2e4756;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                padding: 10px;
+            }
+
+            .menu.active {
+                display: flex; /* ✅ 點擊漢堡選單後才展開 */
+            }
+
+            .menu li {
+                text-align: center;
+                padding: 10px;
+                border-bottom: 1px solid #3c7a89;
+            }
+
+            .menu li:last-child {
+                border-bottom: none;
+            }
+
+            .menu a {
+                display: block;
+                padding: 12px 0;
+                width: 100%;
+            }
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Header 導覽列 -->
+    <div class="header">
+        <div class="container">
+
+            <div class="logo">🍸 調酒推薦</div>
+            <ul class="menu">
+                <li><a href="/home">今日推薦</a></li>
+
+            </ul>
+    
+            <a href="#" class="burgar_btn">
+                <i class="fas fa-bars"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- 登入區塊 -->
+    <div class="login-container">
+        <div class="image-container">
+            <img src="/static/images/people.jpeg" alt="Cocktail Image">
+        </div>
+        <div class="form-container">
+            <h1>登入</h1>
+            <p>Log in to your account and your information has been secured</p>
+            <form id="loginForm">
+                <input type="email" id="email" name="email" placeholder="Email Address" required>
+                <button class="button" type="submit">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div>
+            <p>© 2025 調酒推薦系統 | All Rights Reserved</p>
+        </div>
+        <div class="social-icons">
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#"><i class="fa-brands fa-twitter"></i></a>
+        </div>
+    </div>
+
+    <script>
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(() => {
+                document.body.classList.add("loaded");
+            }, 500); // 0.5 秒後開始動畫
+        });
+
+
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            let email = document.getElementById("email").value;
+            fetch("/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ email: email })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = "/home";
+                } else {
+                    alert("登入失敗，請確認 Email");
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

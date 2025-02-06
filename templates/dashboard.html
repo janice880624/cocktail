@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主頁 - 調酒推薦系統</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #16262e;
+            color: #dbc2cf;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        h1 {
+            color: #9fa2b2;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+        .card {
+            background-color: #2e4756;
+            border-radius: 10px;
+            padding: 15px;
+            width: 250px;
+            text-align: center;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+            margin-right: 20px;
+        }
+        .card img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .button {
+            background-color: #3c7a89;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .button:hover {
+            background-color: #2e4756;
+        }
+        .scroll-container {
+            display: flex;
+            overflow-x: auto;
+            padding: 20px;
+            scroll-snap-type: x mandatory;
+        }
+        .scroll-container .card {
+            flex: 0 0 auto;
+            scroll-snap-align: center;
+        }
+        @media (max-width: 768px) {
+            .card-container {
+                display: none;
+            }
+            .scroll-container {
+                display: flex;
+            }
+        }
+        @media (min-width: 769px) {
+            .scroll-container {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>歡迎, {{ name }}!</h1>
+        <p>您的電子郵件：{{ email }}</p>
+        <h2>推薦的調酒</h2>
+        
+        <!-- 桌機版顯示 -->
+        <div class="card-container">
+            {% for cocktail in cocktails %}
+            <div class="card">
+                <img src="/static/images/{{ cocktail['圖片位置'] | string }}.jpg" alt="{{ cocktail['調酒名稱'] }}">
+                <p>{{ cocktail.get('\ufeff調酒名稱', '未知調酒') }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- 手機版滑動顯示 -->
+        <div class="scroll-container">
+            {% for cocktail in cocktails %}
+            <div class="card">
+                <img src="/static/images/{{ cocktail['圖片位置'] | string }}.jpg" alt="{{ cocktail['調酒名稱'] }}">
+                <p>{{ cocktail.get('\ufeff調酒名稱', '未知調酒') }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <button class="button" onclick="location.href='/start-recommendation'">開始推薦</button>
+
+        <a href="/history" class="button">查看歷史紀錄</a>
+        <a href="/logout" class="button">登出</a>
+    </div>
+</body>
+</html>
